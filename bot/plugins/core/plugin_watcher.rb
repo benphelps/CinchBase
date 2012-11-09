@@ -13,7 +13,7 @@ module Cinch
           $1 + "_" + $2
         }.downcase # we downcase here to also catch the first letter
 
-        file_name = "ircmarket/plugins/core/#{mapping}.rb"
+        file_name = "bot/plugins/core/#{mapping}.rb"
         unless File.exist?(file_name)
           @bot.loggers.error "Could not auto-load #{plugin} because #{file_name} does not exist."
           return
@@ -78,7 +78,7 @@ module Cinch
 
       def auto_reload_plugins
         Thread.new {
-          Listen.to('ircmarket/plugins/core', :filter => /\.rb$/, :relative_paths => true) do |modified, added, removed|
+          Listen.to('bot/plugins/core', :filter => /\.rb$/, :relative_paths => true) do |modified, added, removed|
             if modified
               modified.each do |class_file|
                 class_name = class_file.split('_').map{|e| e.capitalize}.join.chomp(File.extname(class_file))
